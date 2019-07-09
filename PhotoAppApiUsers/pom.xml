@@ -11,7 +11,7 @@
     <groupId>com.apps.photoapp.api.users</groupId>
     <artifactId>photoappapiusers</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>photoappapiusers</name>
+    <name>PhotoAppApiUsers</name>
     <description>Users microservice</description>
 
     <properties>
