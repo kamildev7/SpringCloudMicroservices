@@ -26,8 +26,7 @@ public class UsersServiceImplementation implements UsersService {
         User user = modelMapper.map(userDetails, User.class);
         user.setEncryptedPassword("test");
 
-        userRepository.save(user);
-
-        return null;
+        final User save = userRepository.save(user);
+        return modelMapper.map(save, UserDto.class);
     }
 }
