@@ -1,6 +1,6 @@
 package com.apps.photoapp.api.users.ui.controllers;
 
-import com.apps.photoapp.api.users.service.UsersService;
+import com.apps.photoapp.api.users.service.UserService;
 import com.apps.photoapp.api.users.shared.UserDto;
 import com.apps.photoapp.api.users.ui.model.CreateUserRequest;
 import com.apps.photoapp.api.users.ui.model.CreateUserResponse;
@@ -26,10 +26,10 @@ public class UserController {
     @Autowired
     private Environment env;
 
-    private UsersService usersService;
+    private UserService userService;
 
-    public UserController(final UsersService usersService) {
-        this.usersService = usersService;
+    public UserController(final UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/status/check")
@@ -44,7 +44,7 @@ public class UserController {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         final UserDto userDto = modelMapper.map(userDetails, UserDto.class);
-        final UserDto createdUser = usersService.createUser(userDto);
+        final UserDto createdUser = userService.createUser(userDto);
         final CreateUserResponse response = modelMapper.map(createdUser, CreateUserResponse.class);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
