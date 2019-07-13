@@ -16,10 +16,11 @@ import java.util.ArrayList;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
-    public static final String AUTHORIZATION_TOKEN_HEADER_PREFIX = "authorization.token.header.prefix";
-    public static final String AUTHORIZATION_TOKEN_HEADER_PREFIX1 = "authorization.token.header.prefix";
-    public static final String AUTHORIZATION_TOKEN_HEADER_NAME = "authorization.token.header.name";
-    public static final String TOKEN_SECRET = "token.secret";
+    private static final String AUTHORIZATION_TOKEN_HEADER_PREFIX = "authorization.token.header.prefix";
+    private static final String AUTHORIZATION_TOKEN_HEADER_PREFIX1 = "authorization.token.header.prefix";
+    private static final String AUTHORIZATION_TOKEN_HEADER_NAME = "authorization.token.header.name";
+    private static final String TOKEN_SECRET = "token.secret";
+    private static final String AUTHORIZATION_TOKEN_HEADER_NAME1 = "authorization.token.header.name";
     private final Environment environment;
 
     public AuthorizationFilter(AuthenticationManager authManager, Environment environment) {
@@ -32,7 +33,7 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain chain) throws IOException, ServletException {
 
-        String authorizationHeader = request.getHeader(environment.getProperty("authorization.token.header.name"));
+        String authorizationHeader = request.getHeader(environment.getProperty(AUTHORIZATION_TOKEN_HEADER_NAME1));
 
         if (authorizationHeader == null || !authorizationHeader
                 .startsWith(environment.getProperty(AUTHORIZATION_TOKEN_HEADER_PREFIX))) {
