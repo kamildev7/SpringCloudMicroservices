@@ -42,7 +42,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         //we use email as a username in this project
-        final UserEntity user = userRepository.findUserByEmail(username);
+        final UserEntity user = userRepository.findByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
@@ -52,10 +52,20 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public UserDto getUserDetailsByEmail(final String email) {
-        final UserEntity user = userRepository.findUserByEmail(email);
+        final UserEntity user = userRepository.findByEmail(email);
 
         if (user == null) {
             throw new UsernameNotFoundException(email);
+        }
+        return new ModelMapper().map(user, UserDto.class);
+    }
+
+    @Override
+    public UserDto getUserByUserId(final String userId) {
+        final UserEntity user = userRepository.findByUserId(userId);
+
+        if (user == null) {
+            throw new UsernameNotFoundException(userId);
         }
         return new ModelMapper().map(user, UserDto.class);
     }
