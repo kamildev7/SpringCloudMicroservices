@@ -5,8 +5,11 @@ import com.apps.photoapp.api.users.data.UserEntity;
 import com.apps.photoapp.api.users.data.UserRepository;
 import com.apps.photoapp.api.users.shared.UserDto;
 import com.apps.photoapp.api.users.ui.model.AlbumResponse;
+import feign.FeignException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -30,6 +33,7 @@ public class UserServiceImplementation implements UserService {
     //    private final RestTemplate restTemplate;
     private final Environment environment;
     private final AlbumsServiceClient albumsServiceClient;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public UserServiceImplementation(final UserRepository userRepository,
                                      final BCryptPasswordEncoder bCryptPasswordEncoder, final Environment environment,
@@ -90,7 +94,12 @@ public class UserServiceImplementation implements UserService {
 //                });
 //        List<AlbumResponse> albumsList = albumsListResponse.getBody();
 
-        final List<AlbumResponse> albums = albumsServiceClient.getAlbums(userId);
+        List<AlbumResponse> albums = null;
+        try {
+            albums = albumsServiceClient.getAlbums(userId);
+        } catch (FeignException fe) {
+            logger.error(fe.getLocalizedMessage());
+        }
 
         final UserDto userDto = new ModelMapper().map(user, UserDto.class);
         userDto.setAlbums(albums);
