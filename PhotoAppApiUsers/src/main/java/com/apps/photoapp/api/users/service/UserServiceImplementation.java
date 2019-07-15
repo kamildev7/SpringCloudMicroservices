@@ -94,12 +94,7 @@ public class UserServiceImplementation implements UserService {
 //                });
 //        List<AlbumResponse> albumsList = albumsListResponse.getBody();
 
-        List<AlbumResponse> albums = null;
-        try {
-            albums = albumsServiceClient.getAlbums(userId);
-        } catch (FeignException fe) {
-            logger.error(fe.getLocalizedMessage());
-        }
+        List<AlbumResponse> albums = albumsServiceClient.getAlbums(userId);
 
         final UserDto userDto = new ModelMapper().map(user, UserDto.class);
         userDto.setAlbums(albums);
